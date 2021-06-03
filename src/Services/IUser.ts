@@ -3,10 +3,11 @@ export interface IUser {
     birthday:number;
     spend: number;
     region: REGION_,
-    gender: GENDER_, 
+    gender: string, 
 }
 
 export enum REGION_ {
+    "None",
     "United States",
     "Europe",
     "APAC",
@@ -15,6 +16,7 @@ export enum REGION_ {
 
 
 export enum GENDER_ {
+    None,
     Male,
     Female
 }

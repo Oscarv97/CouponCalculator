@@ -19,7 +19,7 @@ var users = new Array(1011).fill().map(function () {
 });
 var json = JSON.stringify({ users: users }, null, 2);
 
-fs.writeFile("./testUserData.json", json, (err) => {
+fs.writeFile("./public/testUserData.json", json, (err) => {
     if(err) throw err;
 });
 console.log("Done");
