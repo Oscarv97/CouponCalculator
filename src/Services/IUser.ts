@@ -15,8 +15,6 @@ export enum REGION_ {
 
 
 export enum GENDER_ {
-    "Male",
-    "Female",
-    "Other",
-    "Prefer not to say"
+    Male,
+    Female
 }
