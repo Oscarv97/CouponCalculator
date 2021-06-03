@@ -28,7 +28,7 @@ describe("UserProfilesProvider", ()=> {
 
         let up = await   new UserDataProvider().getAllUsers();
         setTimeout(() => {
-            expect(up.).toBe("Stephen Burns");
+            expect("").toBe("Stephen Burns");
             done();
         }, 50);
     });

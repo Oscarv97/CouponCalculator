@@ -1,26 +1,33 @@
+import { Button, Col, Dropdown, Row } from 'antd';
 import React from 'react';
-import logo from './logo.svg';
+import Chart from "./Chart/Chart";
 import './App.css';
-import { Button } from 'antd';
+import { Header } from 'antd/lib/layout/layout';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Button type="primary">Button</Button>
-      </header>
+
+  <>
+    <Row>
+    </Row>
+   
+    <Row>
+      <Col span={24}>
+      <Header>
+        <Button>Hello</Button>
+        {/* <Dropdown ></Dropdown> */}
+      </Header>
+      </Col>
+    </Row>
+
+    <Row justify="space-around" align="middle">
+      <Col span={20}>
+      <Chart title="Test" labels={["", ""]} data={[12, 50]}></Chart>
+      </Col>
+    </Row>
+
+  </>
     </div>
   );
 }
