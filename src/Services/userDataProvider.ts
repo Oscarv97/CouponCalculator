@@ -9,8 +9,8 @@ export class UserDataProvider implements IUserDataProvider {
         let cachedValuesResolved: boolean = false;
         let cachedValue = window.sessionStorage.getItem(this.sessionKey);
         let cachedUsers: IUser[] = [];
-        if(cachedValue){
-         cachedUsers = (JSON.parse(cachedValue) as IUser[]);
+        if (cachedValue) {
+            cachedUsers = (JSON.parse(cachedValue) as IUser[]);
         }
 
         if (cachedUsers.length > 0) {
@@ -25,17 +25,15 @@ export class UserDataProvider implements IUserDataProvider {
             }
         })
 
-            let results = await userJson.json();
-            console.log(results.users);
-            window.sessionStorage.setItem(this.sessionKey,JSON.stringify(results.users));
+        let results = await userJson.json();
+        console.log(results.users);
+        window.sessionStorage.setItem(this.sessionKey, JSON.stringify(results.users));
 
-            if (!cachedValuesResolved) {
-                return Promise.resolve(results.users);
-            } else {
-                return Promise.reject(null);
-            }
-
-
+        if (!cachedValuesResolved) {
+            return Promise.resolve(results.users);
+        } else {
+            return Promise.reject("Failed to get User data");
+        }
     }
 
     public getUser(userId: number): Promise<IUser> {

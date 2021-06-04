@@ -1,4 +1,4 @@
-import { Col, InputNumber, Row, Select, Slider } from 'antd';
+import { Col, Row } from 'antd';
 import { Header } from 'antd/lib/layout/layout';
 import React from 'react';
 import { IAppState } from '../IAppState';
@@ -7,7 +7,8 @@ import { IUserDataProvider } from '../Services/IUserDataProvider';
 import { UserDataProvider } from '../Services/userDataProvider';
 import './App.css';
 import Chart from "./Chart/Chart";
-const { Option } = Select;
+import ControlBar from './ControlBar/ControlBar';
+
 
 export default class App extends React.Component<{}, IAppState> {
   private userProvider: IUserDataProvider;
@@ -25,9 +26,8 @@ export default class App extends React.Component<{}, IAppState> {
       selectedGender: "None",
       selectedRegion: REGION_.none,
     };
-    this.handleRegion = this.handleRegion.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
     this.onSliderChange = this.onSliderChange.bind(this);
-    this.onGenderSelect = this.onGenderSelect.bind(this);
     this.calculateValues = this.calculateValues.bind(this);
   }
 
@@ -74,9 +74,12 @@ export default class App extends React.Component<{}, IAppState> {
     })
   }
 
-  private handleRegion(region: string): void {
+  private handleSelectChange(key: string, value: string): void {
     this.setState((prevState: IAppState) => {
-      prevState.selectedRegion = region as REGION_;
+      key === "gender" ?
+        prevState.selectedGender = value
+        :
+        prevState.selectedRegion = value as REGION_
       return prevState;
     }, () => {
       this.calculateValues();
@@ -86,15 +89,6 @@ export default class App extends React.Component<{}, IAppState> {
   private onSliderChange(value: number): void {
     this.setState((prevState: IAppState) => {
       prevState.cutoff = value;
-      return prevState;
-    }, () => {
-      this.calculateValues();
-    });
-  }
-
-  private onGenderSelect(value: string): void {
-    this.setState((prevState: IAppState) => {
-      prevState.selectedGender = value;
       return prevState;
     }, () => {
       this.calculateValues();
@@ -112,52 +106,11 @@ export default class App extends React.Component<{}, IAppState> {
               </Header>
             </Col>
           </Row>
-
-          <Row className={"main-header container"} justify="space-around" >
-            <Col span={8}>
-              <Slider
-                min={0}
-                max={5000}
-                step={5}
-                onChange={this.onSliderChange}
-                value={typeof this.state.cutoff === 'number' ? this.state.cutoff : 0}
-              />
-            </Col>
-
-            <Col span={4}>
-            <label className="filter-label">Spend Cutoff</label>
-              <InputNumber
-                min={0}
-                max={5000}
-                style={{ margin: '0 16px' }}
-                value={this.state.cutoff}
-                step={5}
-                onChange={this.onSliderChange}
-              />
-            </Col>
-            <Col span={4}>
-              <label className="filter-label">Gender Filter</label>
-              <Select defaultValue="None" style={{ width: 120 }} onChange={this.onGenderSelect}>
-                <Option value="Male">Male</Option>
-                <Option value="Female">Female</Option>
-                <Option value="None">None</Option>
-              </Select>
-            </Col>
-            <Col span={4}>
-              <label className="filter-label">Region Filter</label>
-              <Select defaultValue="None" style={{ width: 200 }} onChange={this.handleRegion}>
-                <Option value="United States">United States</Option>
-                <Option value="Europe">Europe</Option>
-                <Option value="APAC">APAC</Option>
-                <Option value="Latin America">Latin America</Option>
-                <Option value="None">None</Option>
-              </Select>
-            </Col>
-          </Row>
+          <ControlBar cutoff={this.state.cutoff} region={this.state.selectedRegion} gender={this.state.selectedGender} liftUpCutoff={this.onSliderChange} liftUpState={this.handleSelectChange}  ></ControlBar>
 
           <Row justify="space-around" align="middle">
             <Col span={20}>
-              <Chart monthlyTotals={this.state.monthlyTotals} rollingTotal={this.state.rollingTotals} title="Test" labels={["", ""]} data={[12, 50]}></Chart>
+              <Chart monthlyTotals={this.state.monthlyTotals} rollingTotal={this.state.rollingTotals}></Chart>
             </Col>
           </Row>
 

@@ -14,9 +14,11 @@ describe("UserProfilesProvider", ()=> {
         // mock the response to reject a fetch mock error
         fetchMock.mockReject(new Error("fetchMockError"));
          new UserDataProvider().getAllUsers().then(response => {
+            // eslint-disable-next-line jest/no-conditional-expect
             expect(response).toBe("Failed to retrieve User Profile Data. Error>>>Error: fetchMockError");
             done();
         }).catch(error =>{
+            // eslint-disable-next-line jest/no-conditional-expect
             expect(error).toBe("Failed to retrieve User Profile Data. Error>>>Error: fetchMockError");
             done();
         })

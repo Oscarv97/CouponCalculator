@@ -4,6 +4,6 @@ import App from '../Components/App';
 
 test('renders learn react link', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const label = screen.getAllByLabelText("Gender Filter");
+  expect(label).toBeInTheDocument();
 });
