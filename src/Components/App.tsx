@@ -5,7 +5,7 @@ import './App.css';
 import { Header } from 'antd/lib/layout/layout';
 import { IUserDataProvider } from '../Services/IUserDataProvider';
 import { UserDataProvider } from '../Services/userDataProvider';
-import { GENDER_, IUser, REGION_ } from '../Services/IUser';
+import { IUser, REGION_ } from '../Services/IUser';
 import { IAppState } from '../IAppState';
 const { Option } = Select;
 
@@ -22,11 +22,13 @@ export default class App extends React.Component<{}, IAppState> {
       monthlyTotals: [],
       cutoff: 0,
       rollingTotals: [],
-      selectedGender: "Female",
+      selectedGender: "None",
       selectedRegion: REGION_.none,
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleRegion = this.handleRegion.bind(this);
     this.onSliderChange = this.onSliderChange.bind(this);
+    this.onGenderSelect = this.onGenderSelect.bind(this);
+    this.calculateValues = this.calculateValues.bind(this);
   }
 
   public componentDidMount(): void {
@@ -43,18 +45,19 @@ export default class App extends React.Component<{}, IAppState> {
     let rawMonths: any = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 10: [], 11: [], 12: [], };
     let monthTotals: number[] = [];
     let rollingTotals: number[] = [];
-    // dont need to call state repeatedly
-    let cutoff = this.state.cutoff;
-    let genderFilter: boolean = this.state.selectedGender === "Male";
+    
+    let genderFilter: boolean = this.state.selectedGender === "None";
     let regionFilter: boolean = this.state.selectedRegion === REGION_.none;
-    console.log(regionFilter)
 
     this.users.map((user) => {
-    if (user.spend >= cutoff && !regionFilter ? user.region === this.state.selectedRegion: true) {
-        console.log(user.region)
-        console.log(this.state.selectedRegion)
-        return rawMonths[user.birthday].push(user.spend)
+      if( !regionFilter ? user.region === this.state.selectedRegion : true && !genderFilter ? user.gender === this.state.selectedGender : true) {
+        if (user.spend > this.state.cutoff){
+          console.log(user.spend > this.state.cutoff)
+          return rawMonths[user.birthday].push(user.spend);
+        } 
       }
+    
+      return null;
     });
 
     let total = 0;
@@ -65,17 +68,38 @@ export default class App extends React.Component<{}, IAppState> {
       rollingTotals.push(total);
     });
 
-    this.setState({ monthlyTotals: monthTotals, rollingTotals: rollingTotals });
+    this.setState((prevState: IAppState) => {
+      prevState.monthlyTotals = monthTotals;
+      prevState.rollingTotals= rollingTotals;
+      return prevState;
+    })
   }
 
-  private handleChange(e: string): void {
-    this.setState({ selectedRegion: e as REGION_ });
-    this.calculateValues();
+  private handleRegion(region: string): void {
+    this.setState((prevState: IAppState) => {
+      prevState.selectedRegion = region as REGION_;
+      return prevState;
+    }, () => {
+      this.calculateValues();
+    });
   }
 
   private onSliderChange(value: number): void {
-    this.setState({ cutoff: value });
-    this.calculateValues();
+    this.setState((prevState: IAppState) => {
+      prevState.cutoff = value;
+      return prevState;
+    }, () => {
+      this.calculateValues();
+    });
+  }
+
+  private onGenderSelect(value: string): void {
+    this.setState((prevState: IAppState) => {
+      prevState.selectedGender = value;
+      return prevState;
+    }, () => {
+      this.calculateValues();
+    });
   }
 
   public render() {
@@ -87,10 +111,6 @@ export default class App extends React.Component<{}, IAppState> {
             <Col span={24}>
               <Header>
 
-
-
-                <Button>Hello</Button>
-                {/* <Dropdown ></Dropdown> */}
               </Header>
             </Col>
           </Row>
@@ -98,8 +118,9 @@ export default class App extends React.Component<{}, IAppState> {
           <Row justify="space-around" align="middle">
             <Col span={8}>
               <Slider
-                min={1}
+                min={0}
                 max={5000}
+                step={5}
                 onChange={this.onSliderChange}
                 value={typeof this.state.cutoff === 'number' ? this.state.cutoff : 0}
               />
@@ -107,15 +128,23 @@ export default class App extends React.Component<{}, IAppState> {
 
             <Col span={2}>
               <InputNumber
-                min={1}
-                max={20}
+                min={0}
+                max={5000}
                 style={{ margin: '0 16px' }}
                 value={this.state.cutoff}
+                step={5}
                 onChange={this.onSliderChange}
               />
             </Col>
             <Col span={4}>
-              <Select defaultValue="None" style={{ width: 120 }} onChange={this.handleChange}>
+              <Select defaultValue="None" style={{ width: 120 }} onChange={this.onGenderSelect}>
+                <Option value="Male">Male</Option>
+                <Option value="Female">Female</Option>
+                <Option value="None">None</Option>
+              </Select>
+            </Col>
+            <Col span={4}>
+              <Select defaultValue="None" style={{ width: 200 }} onChange={this.handleRegion}>
                 <Option value="United States">United States</Option>
                 <Option value="Europe">Europe</Option>
                 <Option value="APAC">APAC</Option>

@@ -1,4 +1,4 @@
-import { GENDER_, REGION_ } from "./Services/IUser";
+import { REGION_ } from "./Services/IUser";
 
 export interface IAppState {
     rollingTotals: number[];
