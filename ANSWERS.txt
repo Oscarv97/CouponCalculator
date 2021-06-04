@@ -1,0 +1,23 @@
+Q): Please explain what is wrong with this code and what the observed behaviour might be in 
+a component that included it.
+this.setState({count: this.state.count + 1})
+
+A): The 'setState' function is an async function that gets queued by react lifecycle management so the value of 'count' may have changed from when the time the request was made to change it
+giving unexpected results.
+The more predicable method of setting state values is to evaluate the state i.e
+
+this.setState((prevState) => {
+    prevState.count = prevState.count + 1;
+    return prevState;
+})
+
+Q): Can you please explain how Redux works, assuming you were talking to a non-technical 
+audience
+
+A): Imagine a farmer(developer) with a heard of sheep(parts of app). 
+The farmer has to run around after all the sheep trying to get them into their pens, just as he gets one into a pen two more break out and run away.
+This is much like changing the state in one component breaking the behavior of another. The more sheep the farmer gets the more confused and harder 
+to manage they become.
+
+So the farmer gets a very well trained dog called Redux. Now the farmer can give Redux 'actions' and he quickly gathers up and the sheep and puts them to bed.
+The farmer can dispatch Redux to manage the sheep so the farmer can get back to running and expanding his farm. 
