@@ -7,11 +7,11 @@ export interface IUser {
 }
 
 export enum REGION_ {
-    "None",
-    "United States",
-    "Europe",
-    "APAC",
-    "Latin America",
+    none = "None",
+    US = "United States",
+    EU = "Europe",
+    APAC= "APAC",
+    LATINAMERICA ="Latin America",
 }
 
 

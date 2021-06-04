@@ -21,7 +21,6 @@ export default class Chart extends React.Component<IChartProps, any> {
                 label: 'Cumulative Spend',
                 data: this.props.rollingTotal,
                 fill: false,
-              
                 backgroundColor: 'rgb(11, 62, 87)',
                 borderColor: 'rgba(50, 129, 168)',
               },
@@ -34,9 +33,12 @@ export default class Chart extends React.Component<IChartProps, any> {
                 {
                   ticks: {
                     beginAtZero: true,
+      
                   },
+                  
                 },
               ],
+               
             },
           };
         return (
