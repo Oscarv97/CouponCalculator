@@ -1,6 +1,13 @@
-# Getting Started with Create React App
+# Coupon Calculator React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Installation
+- Clone this repository
+- Navigate to the root folder
+- Run `yarn install`
+- Seed the Test user Data  `yarn seed`
+- Start the app `yarn start`
 
 ## Available Scripts
 
