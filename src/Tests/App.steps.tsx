@@ -1,4 +1,5 @@
 import { mount } from "enzyme";
+import React from "react";
 import { defineFeature, loadFeature } from "jest-cucumber";
 import App from "../Components/App";
 

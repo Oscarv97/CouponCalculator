@@ -7,9 +7,10 @@ module.exports = {
   testEnvironmentOptions: {
     runScripts: "dangerously", resources: "usable"
   },
+  automock: false,
   globals: {
     'ts-jest': {
-      tsConfig: {
+      tsconfig: {
         jsx: "react"
       }
     }
