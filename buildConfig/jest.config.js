@@ -1,7 +1,7 @@
 const path = require("path");
 module.exports = {
   rootDir: path.join(__dirname, "../"),
-  testURL: "http://localhost?email=someone@example.com:",
+  testURL: "http://localhost",
 
   preset: 'ts-jest',
   testEnvironmentOptions: {
