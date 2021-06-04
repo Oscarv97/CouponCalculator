@@ -71,7 +71,7 @@ export default class App extends React.Component<{}, IAppState> {
       prevState.monthlyTotals = monthTotals;
       prevState.rollingTotals = rollingTotals;
       return prevState;
-    })
+    });
   }
 
   private handleSelectChange(key: string, value: string): void {
@@ -113,7 +113,6 @@ export default class App extends React.Component<{}, IAppState> {
               <Chart monthlyTotals={this.state.monthlyTotals} rollingTotal={this.state.rollingTotals}></Chart>
             </Col>
           </Row>
-
         </>
       </div >
     );

@@ -26,7 +26,7 @@ export class UserDataProvider implements IUserDataProvider {
         })
 
         let results = await userJson.json();
-        console.log(results.users);
+
         window.sessionStorage.setItem(this.sessionKey, JSON.stringify(results.users));
 
         if (!cachedValuesResolved) {

@@ -39,7 +39,7 @@ export default class ControlBar extends React.Component<IControlBarProps> {
                     />
                 </Col>
                 <Col span={4}>
-                    <label className="filter-label">Gender Filter</label>
+                    <label className="filter-label">Gender</label>
                     <Select defaultValue="None" style={{ width: 120 }}  onChange={(e: string) => {this.handleChange('gender', e)}}>
                         <Option value="Male">Male</Option>
                         <Option value="Female">Female</Option>
@@ -47,7 +47,7 @@ export default class ControlBar extends React.Component<IControlBarProps> {
                     </Select>
                 </Col>
                 <Col span={4}>
-                    <label className="filter-label">Region Filter</label>
+                    <label className="filter-label">Region</label>
                     <Select defaultValue="None" style={{ width: 200 }}  onChange={(e: string) => {this.handleChange('region', e)}}>
                         <Option value="United States">United States</Option>
                         <Option value="Europe">Europe</Option>
