@@ -1,12 +1,12 @@
-import { Button, Col, InputNumber, Row, Select, Slider } from 'antd';
-import React from 'react';
-import Chart from "./Chart/Chart";
-import './App.css';
+import { Col, InputNumber, Row, Select, Slider } from 'antd';
 import { Header } from 'antd/lib/layout/layout';
+import React from 'react';
+import { IAppState } from '../IAppState';
+import { IUser, REGION_ } from '../Services/IUser';
 import { IUserDataProvider } from '../Services/IUserDataProvider';
 import { UserDataProvider } from '../Services/userDataProvider';
-import { IUser, REGION_ } from '../Services/IUser';
-import { IAppState } from '../IAppState';
+import './App.css';
+import Chart from "./Chart/Chart";
 const { Option } = Select;
 
 export default class App extends React.Component<{}, IAppState> {
@@ -45,18 +45,17 @@ export default class App extends React.Component<{}, IAppState> {
     let rawMonths: any = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 10: [], 11: [], 12: [], };
     let monthTotals: number[] = [];
     let rollingTotals: number[] = [];
-    
+
     let genderFilter: boolean = this.state.selectedGender === "None";
     let regionFilter: boolean = this.state.selectedRegion === REGION_.none;
 
     this.users.map((user) => {
-      if( !regionFilter ? user.region === this.state.selectedRegion : true && !genderFilter ? user.gender === this.state.selectedGender : true) {
-        if (user.spend > this.state.cutoff){
+      if (!regionFilter ? user.region === this.state.selectedRegion : true && !genderFilter ? user.gender === this.state.selectedGender : true) {
+        if (user.spend > this.state.cutoff) {
           console.log(user.spend > this.state.cutoff)
           return rawMonths[user.birthday].push(user.spend);
-        } 
+        }
       }
-    
       return null;
     });
 
@@ -70,7 +69,7 @@ export default class App extends React.Component<{}, IAppState> {
 
     this.setState((prevState: IAppState) => {
       prevState.monthlyTotals = monthTotals;
-      prevState.rollingTotals= rollingTotals;
+      prevState.rollingTotals = rollingTotals;
       return prevState;
     })
   }
@@ -109,13 +108,12 @@ export default class App extends React.Component<{}, IAppState> {
 
           <Row>
             <Col span={24}>
-              <Header>
-
+              <Header >
               </Header>
             </Col>
           </Row>
 
-          <Row justify="space-around" align="middle">
+          <Row className={"main-header container"} justify="space-around" >
             <Col span={8}>
               <Slider
                 min={0}
@@ -126,7 +124,8 @@ export default class App extends React.Component<{}, IAppState> {
               />
             </Col>
 
-            <Col span={2}>
+            <Col span={4}>
+            <label className="filter-label">Spend Cutoff</label>
               <InputNumber
                 min={0}
                 max={5000}
@@ -137,6 +136,7 @@ export default class App extends React.Component<{}, IAppState> {
               />
             </Col>
             <Col span={4}>
+              <label className="filter-label">Gender Filter</label>
               <Select defaultValue="None" style={{ width: 120 }} onChange={this.onGenderSelect}>
                 <Option value="Male">Male</Option>
                 <Option value="Female">Female</Option>
@@ -144,6 +144,7 @@ export default class App extends React.Component<{}, IAppState> {
               </Select>
             </Col>
             <Col span={4}>
+              <label className="filter-label">Region Filter</label>
               <Select defaultValue="None" style={{ width: 200 }} onChange={this.handleRegion}>
                 <Option value="United States">United States</Option>
                 <Option value="Europe">Europe</Option>

@@ -13,10 +13,3 @@ export enum REGION_ {
     APAC= "APAC",
     LATINAMERICA ="Latin America",
 }
-
-
-export enum GENDER_ {
-    none = "None",
-    Male = "Male",
-    Female = "Female"
-}
